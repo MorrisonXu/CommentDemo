@@ -10,7 +10,7 @@
 
 #import "CommentView.h"
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate> {
     CommentView *_viewMain;
     
     // Data Source

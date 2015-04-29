@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 
+#import "CommentCell.h"
+
 @interface ViewController ()
 
 @end
@@ -36,6 +38,8 @@
     _viewMain.tvContent.delegate = self;
     _viewMain.tvContent.dataSource = self;
     
+    [_viewMain.btSend addTarget:self action:@selector(sendReply) forControlEvents:UIControlEventTouchUpInside];
+    
     // Config & Init
     _comments = [[NSMutableArray alloc] init];
 }
@@ -43,6 +47,29 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - 功能函数
+
+- (void)sendReply {
+    NSString *commentMsg = [_viewMain.tvInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([commentMsg length] == 0) {
+        [self showAlertWithMsg:@"评论不能为空"];
+        return;
+    }
+    
+    [_comments addObject:commentMsg];
+    [_viewMain.tvContent reloadData];
+    _viewMain.tvInput.text = @"";
+}
+
+- (void)showAlertWithMsg:(NSString *)msg {
+    [[[UIAlertView alloc]initWithTitle:@"提醒"
+                               message:msg
+                              delegate:self
+                     cancelButtonTitle:@"确认"
+                     otherButtonTitles:nil] show];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -62,11 +89,22 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    static NSString *identifier = @"CommentCell";
+    CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell)
+        cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    [cell setMessage:_comments[indexPath.row]];
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+    
 }
 
 #pragma mark - Keyboard Methods

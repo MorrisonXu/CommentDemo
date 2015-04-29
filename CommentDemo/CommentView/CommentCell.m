@@ -8,6 +8,10 @@
 
 #import "CommentCell.h"
 
+#import "layout_comment_cell.h"
+
+#define MENTIONED_NUM           3
+
 @implementation CommentCell
 
 - (id)initWithFrame:(CGRect)frame {
@@ -21,8 +25,8 @@
 #pragma mark - 构建页面
 
 - (void)create {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     // Replier
-    _lbReplier = [[UILabel alloc] init];
     
     // Mentioned
     
@@ -32,7 +36,44 @@
 #pragma mark - 设置
 
 - (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+}
+
+- (void)setMessage:(NSString *)msg {
+    _msg = msg;
     
+    self.textLabel.attributedText = [self addAttributesToString:_msg];
+}
+
+#pragma mark - 功能函数
+
+- (NSMutableAttributedString *)addAttributesToString:(NSString *)str {
+    NSString *mentionedStr = [self findMentionedString:str];
+    NSString *commentStr = [self findCommentString:str];
+    
+    NSDictionary *attrMentioned = @{ NSForegroundColorAttributeName:NAVIGATION_COLOR };
+    NSDictionary *attrComment = @{ NSForegroundColorAttributeName:[UIColor blackColor]};
+    
+    NSAttributedString *attrMentionedStr = [[NSAttributedString alloc] initWithString:mentionedStr attributes:attrMentioned];
+    NSAttributedString *attrCommentStr = [[NSAttributedString alloc] initWithString:commentStr attributes:attrComment];
+    
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithAttributedString:attrMentionedStr];
+    [attrStr appendAttributedString:attrCommentStr];
+    return  attrStr;
+}
+
+- (NSString *)findMentionedString:(NSString *)str {
+    if (str.length > MENTIONED_NUM)
+        return [[str substringToIndex:MENTIONED_NUM] stringByAppendingString:@" "];
+    else
+        return str;
+}
+
+- (NSString *)findCommentString:(NSString *)str {
+    if (str.length > MENTIONED_NUM)
+        return [str substringFromIndex:MENTIONED_NUM];
+    else
+        return @"";
 }
 
 @end

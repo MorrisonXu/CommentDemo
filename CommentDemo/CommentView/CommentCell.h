@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CommentCell : UITableViewCell
+@interface CommentCell : UITableViewCell {
+    NSString *_msg;
+}
 
-@property (nonatomic, readonly)UILabel *lbReplier;
-@property (nonatomic, readonly)UILabel *lbMentioned;
-@property (nonatomic, readonly)UILabel *lbMessage;
+- (void)setMessage:(NSString *)msg;
 
 @end
