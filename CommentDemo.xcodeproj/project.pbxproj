@@ -14,6 +14,9 @@
 		4EF0E9941AEC88E200CD8432 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EF0E9931AEC88E200CD8432 /* Images.xcassets */; };
 		4EF0E9971AEC88E200CD8432 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EF0E9951AEC88E200CD8432 /* LaunchScreen.xib */; };
 		4EF0E9A31AEC88E300CD8432 /* CommentDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0E9A21AEC88E300CD8432 /* CommentDemoTests.m */; };
+		4EF0E9AF1AEC893900CD8432 /* CommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0E9AE1AEC893900CD8432 /* CommentView.m */; };
+		4EF0E9B31AEC8FB600CD8432 /* CommentView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4EF0E9B21AEC8FB600CD8432 /* CommentView.strings */; };
+		4EF0E9B91AEC93E500CD8432 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0E9B81AEC93E500CD8432 /* CommentCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,13 @@
 		4EF0E99C1AEC88E300CD8432 /* CommentDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CommentDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EF0E9A11AEC88E300CD8432 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EF0E9A21AEC88E300CD8432 /* CommentDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentDemoTests.m; sourceTree = "<group>"; };
+		4EF0E9AD1AEC893900CD8432 /* CommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentView.h; path = CommentView/CommentView.h; sourceTree = "<group>"; };
+		4EF0E9AE1AEC893900CD8432 /* CommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentView.m; path = CommentView/CommentView.m; sourceTree = "<group>"; };
+		4EF0E9B01AEC8AB400CD8432 /* layout_comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = layout_comment.h; path = CommentView/layout_comment.h; sourceTree = "<group>"; };
+		4EF0E9B11AEC8D1900CD8432 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		4EF0E9B21AEC8FB600CD8432 /* CommentView.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = CommentView.strings; path = CommentView/CommentView.strings; sourceTree = "<group>"; };
+		4EF0E9B71AEC93E500CD8432 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentCell.h; path = CommentView/CommentCell.h; sourceTree = "<group>"; };
+		4EF0E9B81AEC93E500CD8432 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentCell.m; path = CommentView/CommentCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +91,9 @@
 		4EF0E9851AEC88E200CD8432 /* CommentDemo */ = {
 			isa = PBXGroup;
 			children = (
+				4EF0E9B11AEC8D1900CD8432 /* common.h */,
+				4EF0E9BA1AEC940400CD8432 /* Model */,
+				4EF0E9AC1AEC891000CD8432 /* CommentView */,
 				4EF0E98A1AEC88E200CD8432 /* AppDelegate.h */,
 				4EF0E98B1AEC88E200CD8432 /* AppDelegate.m */,
 				4EF0E98D1AEC88E200CD8432 /* ViewController.h */,
@@ -117,6 +130,26 @@
 				4EF0E9A11AEC88E300CD8432 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4EF0E9AC1AEC891000CD8432 /* CommentView */ = {
+			isa = PBXGroup;
+			children = (
+				4EF0E9B01AEC8AB400CD8432 /* layout_comment.h */,
+				4EF0E9B21AEC8FB600CD8432 /* CommentView.strings */,
+				4EF0E9AD1AEC893900CD8432 /* CommentView.h */,
+				4EF0E9AE1AEC893900CD8432 /* CommentView.m */,
+				4EF0E9B71AEC93E500CD8432 /* CommentCell.h */,
+				4EF0E9B81AEC93E500CD8432 /* CommentCell.m */,
+			);
+			name = CommentView;
+			sourceTree = "<group>";
+		};
+		4EF0E9BA1AEC940400CD8432 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EF0E9921AEC88E200CD8432 /* Main.storyboard in Resources */,
+				4EF0E9B31AEC8FB600CD8432 /* CommentView.strings in Resources */,
 				4EF0E9971AEC88E200CD8432 /* LaunchScreen.xib in Resources */,
 				4EF0E9941AEC88E200CD8432 /* Images.xcassets in Resources */,
 			);
@@ -221,6 +255,8 @@
 			files = (
 				4EF0E98F1AEC88E200CD8432 /* ViewController.m in Sources */,
 				4EF0E98C1AEC88E200CD8432 /* AppDelegate.m in Sources */,
+				4EF0E9AF1AEC893900CD8432 /* CommentView.m in Sources */,
+				4EF0E9B91AEC93E500CD8432 /* CommentCell.m in Sources */,
 				4EF0E9891AEC88E200CD8432 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

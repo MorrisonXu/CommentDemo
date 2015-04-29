@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 
+#import "ViewController.h"
+
+#import "common.h"
+
 @interface AppDelegate ()
 
 @end
@@ -16,6 +20,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [[UINavigationBar appearance] setBarTintColor:NAVIGATION_COLOR];
+    
+    [self toAnyView];
+    
     // Override point for customization after application launch.
     return YES;
 }
@@ -40,6 +48,15 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - 页面跳转
+
+- (void)toAnyView {
+    UIViewController *controller = [[ViewController alloc] init];
+    
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+    self.window.rootViewController = nav;
 }
 
 @end

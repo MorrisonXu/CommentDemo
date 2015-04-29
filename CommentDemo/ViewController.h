@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+#import "CommentView.h"
+
+@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+    CommentView *_viewMain;
+    
+    // Data Source
+    NSMutableArray *_comments;
+}
 
 
 @end
