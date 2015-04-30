@@ -12,6 +12,4 @@
     NSString *_msg;
 }
 
-- (void)setMessage:(NSString *)msg;
-
 @end

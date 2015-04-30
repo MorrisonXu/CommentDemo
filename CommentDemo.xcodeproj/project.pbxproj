@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4ECC1F7F1AF0E3A10088B227 /* CommentString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC1F7E1AF0E3A10088B227 /* CommentString.m */; };
+		4ECC1F9E1AF1E3620088B227 /* ReplyMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECC1F9C1AF1E3620088B227 /* ReplyMessage.m */; };
+		4EECBE771AF2062600FDA993 /* JDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EECBE761AF2062600FDA993 /* JDTextView.m */; };
 		4EF0E9891AEC88E200CD8432 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0E9881AEC88E200CD8432 /* main.m */; };
 		4EF0E98C1AEC88E200CD8432 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0E98B1AEC88E200CD8432 /* AppDelegate.m */; };
 		4EF0E98F1AEC88E200CD8432 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF0E98E1AEC88E200CD8432 /* ViewController.m */; };
@@ -32,8 +33,10 @@
 
 /* Begin PBXFileReference section */
 		4ECC1F791AF0C6C80088B227 /* layout_comment_cell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = layout_comment_cell.h; path = CommentView/layout_comment_cell.h; sourceTree = "<group>"; };
-		4ECC1F7D1AF0E3A10088B227 /* CommentString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentString.h; path = CommentView/CommentString.h; sourceTree = "<group>"; };
-		4ECC1F7E1AF0E3A10088B227 /* CommentString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentString.m; path = CommentView/CommentString.m; sourceTree = "<group>"; };
+		4ECC1F9B1AF1E3620088B227 /* ReplyMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReplyMessage.h; sourceTree = "<group>"; };
+		4ECC1F9C1AF1E3620088B227 /* ReplyMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReplyMessage.m; sourceTree = "<group>"; };
+		4EECBE751AF2062600FDA993 /* JDTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JDTextView.h; path = CommentView/JDTextView.h; sourceTree = "<group>"; };
+		4EECBE761AF2062600FDA993 /* JDTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JDTextView.m; path = CommentView/JDTextView.m; sourceTree = "<group>"; };
 		4EF0E9831AEC88E200CD8432 /* CommentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EF0E9871AEC88E200CD8432 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EF0E9881AEC88E200CD8432 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -74,6 +77,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EECBE781AF2062A00FDA993 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				4ECC1F791AF0C6C80088B227 /* layout_comment_cell.h */,
+				4EF0E9B71AEC93E500CD8432 /* CommentCell.h */,
+				4EF0E9B81AEC93E500CD8432 /* CommentCell.m */,
+				4EECBE751AF2062600FDA993 /* JDTextView.h */,
+				4EECBE761AF2062600FDA993 /* JDTextView.m */,
+			);
+			name = SubView;
+			sourceTree = "<group>";
+		};
 		4EF0E97A1AEC88E200CD8432 = {
 			isa = PBXGroup;
 			children = (
@@ -139,13 +154,11 @@
 		4EF0E9AC1AEC891000CD8432 /* CommentView */ = {
 			isa = PBXGroup;
 			children = (
+				4EECBE781AF2062A00FDA993 /* SubView */,
 				4EF0E9B01AEC8AB400CD8432 /* layout_comment.h */,
 				4EF0E9B21AEC8FB600CD8432 /* CommentView.strings */,
 				4EF0E9AD1AEC893900CD8432 /* CommentView.h */,
 				4EF0E9AE1AEC893900CD8432 /* CommentView.m */,
-				4ECC1F791AF0C6C80088B227 /* layout_comment_cell.h */,
-				4EF0E9B71AEC93E500CD8432 /* CommentCell.h */,
-				4EF0E9B81AEC93E500CD8432 /* CommentCell.m */,
 			);
 			name = CommentView;
 			sourceTree = "<group>";
@@ -153,8 +166,8 @@
 		4EF0E9BA1AEC940400CD8432 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4ECC1F7D1AF0E3A10088B227 /* CommentString.h */,
-				4ECC1F7E1AF0E3A10088B227 /* CommentString.m */,
+				4ECC1F9B1AF1E3620088B227 /* ReplyMessage.h */,
+				4ECC1F9C1AF1E3620088B227 /* ReplyMessage.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -262,10 +275,11 @@
 			files = (
 				4EF0E98F1AEC88E200CD8432 /* ViewController.m in Sources */,
 				4EF0E98C1AEC88E200CD8432 /* AppDelegate.m in Sources */,
+				4ECC1F9E1AF1E3620088B227 /* ReplyMessage.m in Sources */,
 				4EF0E9AF1AEC893900CD8432 /* CommentView.m in Sources */,
 				4EF0E9B91AEC93E500CD8432 /* CommentCell.m in Sources */,
-				4ECC1F7F1AF0E3A10088B227 /* CommentString.m in Sources */,
 				4EF0E9891AEC88E200CD8432 /* main.m in Sources */,
+				4EECBE771AF2062600FDA993 /* JDTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

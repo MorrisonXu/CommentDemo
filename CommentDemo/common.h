@@ -16,4 +16,16 @@
 #define DEFAULT_FONT_BOLD(fontSize)     [UIFont fontWithName:@"STHeitiTC-Medium" size:fontSize]
 #define FONT_PX2PT(px)                  (px / 2.0)
 
+#define TEST_UID_ME                     @"00dd350b15ddd6000e9fb4df"
+#define TEST_NAME_ME                    @"佳俊"
+
+#define TEST_UID_1                      @"54ab350b15ddd6000e9fb4df"
+#define TEST_NAME_1                     @"老姜"
+
+#define TEST_UID_2                      @"1233350b15ddd6000e9fb4df"
+#define TEST_NAME_2                     @"弘哥"
+
+#define TEST_UID_3                      @"1df3350b15ddd6000e9fb4df"
+#define TEST_NAME_3                     @"总管"
+
 #endif

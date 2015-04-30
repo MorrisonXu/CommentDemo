@@ -25,7 +25,7 @@
 #pragma mark - 构建页面
 
 - (void)create {
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
+//    self.selectionStyle = UITableViewCellSelectionStyleNone;
     // Replier
     
     // Mentioned
@@ -37,12 +37,6 @@
 
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
-}
-
-- (void)setMessage:(NSString *)msg {
-    _msg = msg;
-    
-    self.textLabel.attributedText = [self addAttributesToString:_msg];
 }
 
 #pragma mark - 功能函数

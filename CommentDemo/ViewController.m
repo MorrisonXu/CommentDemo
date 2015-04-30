@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 
+#import "common.h"
+
 #import "CommentCell.h"
 
 @interface ViewController ()
@@ -38,10 +40,20 @@
     _viewMain.tvContent.delegate = self;
     _viewMain.tvContent.dataSource = self;
     
+    _viewMain.tvInput.delegate = self;
+    _viewMain.tvInput.jdDelegate = self;
+    
     [_viewMain.btSend addTarget:self action:@selector(sendReply) forControlEvents:UIControlEventTouchUpInside];
     
     // Config & Init
     _comments = [[NSMutableArray alloc] init];
+    ReplyMessage *testReply = [[ReplyMessage alloc] init];
+    testReply.senderUidToName = @{ TEST_UID_1 : TEST_NAME_1 };
+    [testReply setOriginMsg:[NSString stringWithFormat:@"@%@ 哈哈@@哈哈@%@ hhh", TEST_UID_2, TEST_UID_3]];
+    [_comments addObject:testReply];
+    
+    _replyMsg = [[ReplyMessage alloc] init];
+    _replyMsg.senderUidToName = @{ TEST_UID_ME : TEST_NAME_ME };
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,16 +64,16 @@
 #pragma mark - 功能函数
 
 - (void)sendReply {
-    NSString *commentMsg = [_viewMain.tvInput.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *replyMsg = _viewMain.tvInput.text;
     
-    if ([commentMsg length] == 0) {
-        [self showAlertWithMsg:@"评论不能为空"];
-        return;
-    }
+//    _replyMsg.originMsg = [ReplyMessage escapeString:replyMsg];
+////    [_replyMsg analyze];
+//    [_comments addObject:_replyMsg];
+//    _replyMsg = [[ReplyMessage alloc] init];
     
-    [_comments addObject:commentMsg];
-    [_viewMain.tvContent reloadData];
     _viewMain.tvInput.text = @"";
+    [_viewMain.tvInput resignFirstResponder];
+    [_viewMain.tvContent reloadData];
 }
 
 - (void)showAlertWithMsg:(NSString *)msg {
@@ -71,6 +83,12 @@
                      cancelButtonTitle:@"确认"
                      otherButtonTitles:nil] show];
 }
+
+//- (void)mentionOneComment:(CommentString *)comment {
+//    [_commentString setMentionedRange:[comment getMentionedRange]];
+//    [_commentString setMentionedUID:[comment getMentionedUID]];
+//    [_commentString setMentionedName:[comment getMentionedName]];
+//}
 
 #pragma mark - UIScrollViewDelegate
 
@@ -93,18 +111,34 @@
     CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell)
         cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    [cell setMessage:_comments[indexPath.row]];
+    ReplyMessage *msg = (ReplyMessage *)_comments[indexPath.row];
+    NSMutableAttributedString *display = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [msg.senderUidToName valueForKey:[msg.senderUidToName allKeys][0]]]];
+    [display appendAttributedString:msg.displayMsg];
+    cell.textLabel.attributedText = display;
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    ReplyMessage *selectedMsg = (ReplyMessage *)_comments[indexPath.row];
+    NSString *selectedUID = [selectedMsg.senderUidToName allKeys][0];
+    NSString *selectedName = selectedMsg.senderUidToName[selectedUID];
+    [_replyMsg addMentionToDisplayWithUID:selectedUID andName:selectedName];
+    
+    _viewMain.tvInput.attributedText = _replyMsg.displayMsg;
 }
 
-#pragma mark - UITextViewDelegate
+#pragma mark - UITextViewDelegate & JDTextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView {
     
+}
+
+- (BOOL)keyboardInputShouldDelete:(UITextView *)textView {
+    NSLog(@"DDDDD", nil);
+    return YES;
 }
 
 #pragma mark - Keyboard Methods

@@ -44,7 +44,7 @@
     [_vReply addSubview:_vSep];
     // Input
     CGFloat inputWidth = _vReply.frame.size.width - REPLY_INPUT_MARGIN_LEFT - REPLY_SEND_MARGIN_LEFT - REPLY_SEND_MARGIN_RIGHT - REPLY_SEND_WIDTH;
-    _tvInput = [[UITextView alloc] initWithFrame:CGRectMake(REPLY_INPUT_MARGIN_LEFT, REPLY_INPUT_MARGIN_TOP, inputWidth, REPLY_INPUT_HEIGHT)];
+    _tvInput = [[JDTextView alloc] initWithFrame:CGRectMake(REPLY_INPUT_MARGIN_LEFT, REPLY_INPUT_MARGIN_TOP, inputWidth, REPLY_INPUT_HEIGHT)];
     CALayer *layerInput = [_tvInput layer];
     layerInput.cornerRadius = REPLY_CORNER_RADIUS;
     layerInput.borderColor = [REPLY_SEP_COLOR CGColor];

@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ReplyMessage.h"
+
 #import "CommentView.h"
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate> {
+@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, JDTextViewDelegate> {
     CommentView *_viewMain;
     
     // Data Source
     NSMutableArray *_comments;
+    // 正在编辑的CommentString
+    ReplyMessage *_replyMsg;
 }
 
 
