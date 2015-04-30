@@ -36,6 +36,16 @@
     [self originToDisplay];
 }
 
+- (void)setDisplayMsg:(NSMutableAttributedString *)displayMsg {
+    _displayMsg = displayMsg;
+    [self displayToOrigin];
+}
+
+- (void)showMsgs {
+    NSLog(@"ORIGIN: %@", _originMsg);
+    NSLog(@"DISPLAY: %@", [_displayMsg string]);
+}
+
 - (void)showDetail {
     NSLog(@"===DISPLAY:");
     for (NSValue *v in _displayRanges) {
@@ -74,10 +84,13 @@
     end = _originMsg.length;
     [_displayMsg appendAttributedString:[[NSAttributedString alloc] initWithString:[ReplyMessage escapeSinglePartToDisplay:_originMsg withRange:NSMakeRange(begin, end - begin)]]];
     
-    [self showDetail];
+//    [self showDetail];
+    [self showMsgs];
 }
 
 - (void)displayToOrigin {
+    [_originMsg setString:@""];
+    
     NSString *displayString = [_displayMsg string];
     
     NSRange range;
@@ -100,7 +113,8 @@
     end = displayString.length;
     [_originMsg appendString:[ReplyMessage escapeSinglePartToOrigin:displayString withRange:NSMakeRange(begin, end - begin)]];
     
-    [self showDetail];
+//    [self showDetail];
+    [self showMsgs];
 }
 
 - (void)addMentionToDisplayWithUID:(NSString *)uid andName:(NSString *)name {
@@ -133,60 +147,17 @@
     }
 }
 
-//- (void)analyzeAndSetDisplayMsg {
-//    [self analyze];
-//    [self setDisplayMsg];
-//}
-//
-//- (void)analyze {
-//    NSArray *results = [ReplyMessage searchPattern:_originMsg];
-//    for (NSTextCheckingResult *result in results) {
-//        NSString *uid = [_originMsg substringWithRange:result.range];
-//        Mentioned *mentionedPart = [[Mentioned alloc] initWithRange:result.range
-//                                                                UID:uid
-//                                                               Name:[self getNameFromUID:uid]];
-//        [_arrMentioned addObject:mentionedPart];
-//    }
-//}
-//
-//- (void)setDisplayMsg {
-//    NSUInteger partBegin = 0;
-//    NSUInteger partEnd = 0;
-//    for (Mentioned *item in _arrMentioned) {
-//        partEnd = item.range.location;
-//        [escaped appendString:[ReplyMessage escapeSinglePart:str withRange:NSMakeRange(partBegin, partEnd - partBegin)]];
-//        partBegin = partEnd + result.range.length;
-//        [escaped appendString:[str substringWithRange:result.range]];
-//    }
-//}
-//
-//- (NSString *)getNameFromUID:(NSString *)uid {
-//    return uid;
-//}
-//
 + (NSMutableAttributedString *)addAttribute:(NSString *)str {
-    NSDictionary *attrDic = @{ NSForegroundColorAttributeName:NAVIGATION_COLOR };
-    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:str attributes:attrDic];
-    return [[NSMutableAttributedString alloc] initWithAttributedString:attrStr];
+    NSDictionary *attrDicMention = @{ NSForegroundColorAttributeName:NAVIGATION_COLOR };
+    NSDictionary *attrDicNormal = @{ NSForegroundColorAttributeName:[UIColor blackColor] };
+    NSAttributedString *attrStrMention = [[NSAttributedString alloc] initWithString:[str substringToIndex:str.length - 1] attributes:attrDicMention];
+    NSAttributedString *attrStrSpace = [[NSAttributedString alloc] initWithString:@" " attributes:attrDicNormal];
+    NSMutableAttributedString *ret = [[NSMutableAttributedString alloc] initWithAttributedString:attrStrMention];
+    [ret appendAttributedString:attrStrSpace];
+    return ret;
 }
 
 #pragma mark - 公用方法
-
-//+ (NSString *)escapeString:(NSString *)str {
-//    NSArray *results = [ReplyMessage searchPattern:str];
-//    NSUInteger partBegin = 0;
-//    NSUInteger partEnd = 0;
-//    NSMutableString *escaped = [[NSMutableString alloc] init];
-//    for (NSTextCheckingResult *result in results) {
-//        partEnd = result.range.location;
-//        [escaped appendString:[ReplyMessage escapeSinglePart:str withRange:NSMakeRange(partBegin, partEnd - partBegin)]];
-//        partBegin = partEnd + result.range.length;
-//        [escaped appendString:[str substringWithRange:result.range]];
-//    }
-//    partEnd = str.length - 1;
-//    [escaped appendString:[ReplyMessage escapeSinglePart:str withRange:NSMakeRange(partBegin, partEnd - partBegin + 1)]];
-//    return escaped;
-//}
 
 + (NSArray *)searchPattern:(NSString *)str {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:REG_SEARCH_PATTERN
@@ -200,12 +171,12 @@
 
 + (NSString *)escapeSinglePartToOrigin:(NSString *)str withRange:(NSRange)range {
     NSString *part = [str substringWithRange:range];
-    return [part stringByReplacingOccurrencesOfString:@"@" withString:@"@@"];
+    return [part stringByReplacingOccurrencesOfString:@"@" withString:@"[@]"];
 }
 
 + (NSString *)escapeSinglePartToDisplay:(NSString *)str withRange:(NSRange)range {
     NSString *part = [str substringWithRange:range];
-    return [part stringByReplacingOccurrencesOfString:@"@@" withString:@"@"];
+    return [part stringByReplacingOccurrencesOfString:@"[@]" withString:@"@"];
 }
 
 @end

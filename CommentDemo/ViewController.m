@@ -49,7 +49,8 @@
     _comments = [[NSMutableArray alloc] init];
     ReplyMessage *testReply = [[ReplyMessage alloc] init];
     testReply.senderUidToName = @{ TEST_UID_1 : TEST_NAME_1 };
-    [testReply setOriginMsg:[NSString stringWithFormat:@"@%@ 哈哈@@哈哈@%@ hhh", TEST_UID_2, TEST_UID_3]];
+//    [testReply setOriginMsg:[NSString stringWithFormat:@"@%@ 哈哈@@哈哈@%@ hhh", TEST_UID_2, TEST_UID_3]];
+    testReply.originMsg = [NSString stringWithFormat:@"@%@ 哈哈@@哈哈@%@ hhh", TEST_UID_2, TEST_UID_3];
     [_comments addObject:testReply];
     
     _replyMsg = [[ReplyMessage alloc] init];
@@ -133,7 +134,8 @@
 #pragma mark - UITextViewDelegate & JDTextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    
+    NSLog(@"cccc", nil);
+    _replyMsg.displayMsg = [textView.attributedText mutableCopy];
 }
 
 - (BOOL)keyboardInputShouldDelete:(UITextView *)textView {

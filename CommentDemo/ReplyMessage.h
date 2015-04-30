@@ -21,7 +21,9 @@
 @property (nonatomic, strong)NSMutableArray *displayRanges;
 @property (nonatomic, strong)NSMutableAttributedString *displayMsg;
 
+// 直接用“=”赋值相当于调用了这个函数
 - (void)setOriginMsg:(NSString *)originMsg;
+- (void)setDisplayMsg:(NSMutableAttributedString *)displayMsg;
 
 - (void)addMentionToDisplayWithUID:(NSString *)uid andName:(NSString *)name;
 
