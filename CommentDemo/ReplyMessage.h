@@ -19,13 +19,22 @@
 @property (nonatomic, strong)NSMutableString *originMsg;
 // Displayed
 @property (nonatomic, strong)NSMutableArray *displayRanges;
-@property (nonatomic, strong)NSMutableAttributedString *displayMsg;
+@property (nonatomic, strong)NSMutableString *displayMsg;
 
+- (id)initWithSenderInfo:(NSDictionary *)info;
 // 直接用“=”赋值相当于调用了这个函数
-- (void)setOriginMsg:(NSString *)originMsg;
-- (void)setDisplayMsg:(NSMutableAttributedString *)displayMsg;
+- (void)setOriginMsg:(NSMutableString *)originMsg;
+- (void)setDisplayMsg:(NSMutableString *)displayMsg;
 
 - (void)addMentionToDisplayWithUID:(NSString *)uid andName:(NSString *)name;
+//- (void)deleteMentionInDisplay:(NSRange)range;
+- (void)updateDisplayMsgWithText:(NSString *)text inRange:(NSRange)range;
+
+- (NSAttributedString *)getAttributedDisplayMsg;
+
+- (NSRange)locationInDisplayRanges:(NSUInteger)loc;
+
+- (void)clearReplyMsg;
 
 //- (void)analyzeAndSetDisplayMsg;
 //+ (NSString *)escapeString:(NSString *)str;

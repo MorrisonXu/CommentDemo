@@ -47,14 +47,12 @@
     
     // Config & Init
     _comments = [[NSMutableArray alloc] init];
-    ReplyMessage *testReply = [[ReplyMessage alloc] init];
-    testReply.senderUidToName = @{ TEST_UID_1 : TEST_NAME_1 };
+    ReplyMessage *testReply = [[ReplyMessage alloc] initWithSenderInfo:@{ TEST_UID_1 : TEST_NAME_1 }];
 //    [testReply setOriginMsg:[NSString stringWithFormat:@"@%@ 哈哈@@哈哈@%@ hhh", TEST_UID_2, TEST_UID_3]];
     testReply.originMsg = [NSString stringWithFormat:@"@%@ 哈哈@@哈哈@%@ hhh", TEST_UID_2, TEST_UID_3];
     [_comments addObject:testReply];
     
-    _replyMsg = [[ReplyMessage alloc] init];
-    _replyMsg.senderUidToName = @{ TEST_UID_ME : TEST_NAME_ME };
+    _replyMsg = [[ReplyMessage alloc] initWithSenderInfo:@{ TEST_UID_ME : TEST_NAME_ME }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,13 +63,13 @@
 #pragma mark - 功能函数
 
 - (void)sendReply {
-    NSString *replyMsg = _viewMain.tvInput.text;
+    [_comments addObject:_replyMsg];
     
-//    _replyMsg.originMsg = [ReplyMessage escapeString:replyMsg];
-////    [_replyMsg analyze];
-//    [_comments addObject:_replyMsg];
-//    _replyMsg = [[ReplyMessage alloc] init];
-    
+    [self replySended];
+}
+
+- (void)replySended {
+    _replyMsg = [[ReplyMessage alloc] initWithSenderInfo:@{ TEST_UID_ME : TEST_NAME_ME }];
     _viewMain.tvInput.text = @"";
     [_viewMain.tvInput resignFirstResponder];
     [_viewMain.tvContent reloadData];
@@ -114,7 +112,7 @@
         cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     ReplyMessage *msg = (ReplyMessage *)_comments[indexPath.row];
     NSMutableAttributedString *display = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: ", [msg.senderUidToName valueForKey:[msg.senderUidToName allKeys][0]]]];
-    [display appendAttributedString:msg.displayMsg];
+    [display appendAttributedString:[msg getAttributedDisplayMsg]];
     cell.textLabel.attributedText = display;
     
     return cell;
@@ -128,20 +126,82 @@
     NSString *selectedName = selectedMsg.senderUidToName[selectedUID];
     [_replyMsg addMentionToDisplayWithUID:selectedUID andName:selectedName];
     
-    _viewMain.tvInput.attributedText = _replyMsg.displayMsg;
+    _viewMain.tvInput.text = _replyMsg.displayMsg;
 }
 
 #pragma mark - UITextViewDelegate & JDTextViewDelegate
 
-- (void)textViewDidChange:(UITextView *)textView {
-    NSLog(@"cccc", nil);
-    _replyMsg.displayMsg = [textView.attributedText mutableCopy];
+// 智能选区，不太流畅，可以想办法和微信一样，手指抬起以后再做区域变换
+- (void)textViewDidChangeSelection:(UITextView *)textView {
+//    NSUInteger selectedBegin = textView.selectedRange.location;
+//    NSUInteger selectedLen = textView.selectedRange.length;
+//    NSUInteger selectedEnd = selectedBegin + selectedLen;
+//
+//    if (selectedLen > 0) {
+//        // 判断选择区域的两边是否在displayRange中
+//        NSRange beginRange = [_replyMsg locationInDisplayRanges:selectedBegin];
+//        if (beginRange.length > 0)
+//            selectedBegin = beginRange.location;
+//        
+//        NSRange endRange = [_replyMsg locationInDisplayRanges:selectedEnd];
+//        NSLog(@"END:%lu %lu", (unsigned long)endRange.location, (unsigned long)endRange.length);
+//        if (endRange.length > 0)
+//            selectedEnd = endRange.location + endRange.length;
+//    }
+//    
+//    NSLog(@"%lu %lu", (unsigned long)selectedBegin, (unsigned long)selectedEnd);
+//    textView.selectedRange = NSMakeRange(selectedBegin, selectedEnd - selectedBegin);
 }
 
-- (BOOL)keyboardInputShouldDelete:(UITextView *)textView {
-    NSLog(@"DDDDD", nil);
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    [_replyMsg updateDisplayMsgWithText:text inRange:range];
+    
     return YES;
 }
+
+// textViewDidChange调用在keyboardInputShouldDelete之后
+- (void)textViewDidChange:(UITextView *)textView {
+    // 内容改变后的location
+    NSUInteger oldLocation = textView.selectedRange.location;
+    textView.text = _replyMsg.displayMsg;
+    textView.selectedRange = NSMakeRange(oldLocation, textView.selectedRange.length);
+}
+
+// 不能和shouldChangeTextInRange一起，不知道为什么
+//- (BOOL)keyboardInputShouldDelete:(UITextView *)textView {
+//    NSLog(@"keyboardInputShouldDelete", nil);
+//    // 这里的textView.text, textView.selectedRange.location, textView.selectedRange.length都是删除前的
+//    NSUInteger deleteLength = textView.selectedRange.length;
+//    NSUInteger locAfterDelete;
+//    
+//    if (textView.selectedRange.length > 0) {
+//        // 选择删除
+//        
+//    } else {
+//        // 直接删除
+//        locAfterDelete = textView.selectedRange.location - 1;
+//        [self deleteOne:locAfterDelete];
+//    }
+//    
+//    return YES;
+//}
+
+//- (void)deleteOne:(NSUInteger)locAfterDelete {
+//    for (NSValue *v in _replyMsg.displayRanges) {
+//        NSRange range = [v rangeValue];
+//        if ([self location:locAfterDelete isInRange:range]) {
+//            [_replyMsg deleteMentionInDisplay:range];
+//        }
+//    }
+//}
+//
+//- (BOOL)location:(NSUInteger)loc isInRange:(NSRange)range {
+//    return loc >= range.location && loc < (range.location + range.length);
+//}
+//
+//- (void)deleteMultiple {
+//    
+//}
 
 #pragma mark - Keyboard Methods
 
